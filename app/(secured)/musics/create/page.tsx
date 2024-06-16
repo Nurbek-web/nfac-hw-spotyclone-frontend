@@ -1,6 +1,9 @@
-import MusicUploadForm from "@/components/music-upload-form";
+import MusicUploadForm from "@/components/forms/music-upload-form";
 
 export default function Page() {
-    return <>
-    <MusicUploadForm /></>
+  return (
+    <>
+      <MusicUploadForm />
+    </>
+  );
 }

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import MusicList from "../../../components/music-list";
 
 interface Music {
   _id: string;
@@ -42,25 +43,7 @@ const Musics: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  return (
-    <div>
-      <h1>Musics</h1>
-      <ul>
-        {musics.map((music) => (
-          <li key={music._id}>
-            <h3>{music.name}</h3>
-            <p>Artist: {music.artist}</p>
-            <p>Duration: {music.duration}</p>
-            <p>Date: {new Date(music.date).toLocaleDateString()}</p>
-            <audio controls>
-              <source src={music.src} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <div>{musics ? <MusicList musics={musics} /> : <></>}</div>;
 };
 
 export default Musics;
