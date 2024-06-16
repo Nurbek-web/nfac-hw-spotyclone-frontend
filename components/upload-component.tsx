@@ -1,6 +1,5 @@
 "use client";
 
-// components/UploadComponent.tsx
 import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 
@@ -22,17 +21,21 @@ const UploadComponent: React.FC = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent: any) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setProgress(percentCompleted);
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/v5/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent: any) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setProgress(percentCompleted);
+          },
+        }
+      );
       setUploadedFileUrl(response.data.fileUrl);
       console.log("File URL:", response.data.fileUrl);
     } catch (error) {
