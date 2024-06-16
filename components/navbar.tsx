@@ -42,9 +42,9 @@ export default function Navbar() {
         </Link>
         <Link
           className="text-muted-foreground transition-colors hover:text-foreground"
-          href="/"
+          href="/musics"
         >
-          Posts
+          Musics
         </Link>
         <Link
           className="text-muted-foreground transition-colors hover:text-foreground"
@@ -71,9 +71,9 @@ export default function Navbar() {
             </Link>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
-              href="/"
+              href="/musics"
             >
-              Recipes
+              Musics
             </Link>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"

@@ -1,19 +1,21 @@
 import { useAuth } from "@/context/AuthContext";
 import axiosInstance from "./axiosInstance";
 
-export const fetchPosts = async (options = {}) => {
+export const fetchMusics = async () => {
   try {
-    const response = await axiosInstance("/auth/posts", options);
-    return response.data;
+    const response = await axiosInstance.get(
+      "http://localhost:5000/api/v5/musics"
+    );
+
+    return { data: response.data, status: 200 };
   } catch (error) {
-    console.error("Error retrieving data:", error);
-    throw new Error("Could not get data");
+    console.error("Error fetching musics:", error);
+    return { data: null, status: 400 };
   }
 };
-
-export const fetchPost = async (id: string, options = {}) => {
+export const fetchMusicByID = async (id: string, options = {}) => {
   try {
-    const response = await axiosInstance(`/auth/posts/${id}`, options);
+    const response = await axiosInstance(`/musics/${id}`, options);
     return response.data;
   } catch (error) {
     return 404;
