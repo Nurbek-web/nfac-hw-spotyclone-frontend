@@ -2,22 +2,33 @@
 
 import { Music } from "@/@types/music";
 import axios from "axios";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { useRouter } from "next/navigation";
 
 interface MusicDetailProps {
   music: Music;
-  onDelete: () => void;
 }
 
-const MusicDetail: React.FC<MusicDetailProps> = ({ music, onDelete }) => {
+const MusicDetail: React.FC<MusicDetailProps> = ({ music }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:5000/api/v5/musics/${music._id}`);
-      onDelete();
-      setIsOpen(false); // Close the confirmation dialog
+      setIsOpen(false);
+      router.push("/");
     } catch (error) {
       console.error("Error deleting music:", error);
     }
@@ -37,12 +48,9 @@ const MusicDetail: React.FC<MusicDetailProps> = ({ music, onDelete }) => {
           </div>
         </div>
         <div className="flex gap-4 items-center">
-          <button
-            onClick={() => setIsOpen(true)}
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-300"
-          >
+          <Button variant="outline" onClick={() => setIsOpen(true)}>
             Delete
-          </button>
+          </Button>
         </div>
       </div>
       <div>
@@ -52,60 +60,27 @@ const MusicDetail: React.FC<MusicDetailProps> = ({ music, onDelete }) => {
       </div>
 
       {/* Confirmation Dialog */}
-      <Transition.Root show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
-          onClose={setIsOpen}
-        >
-          <div className="flex items-center justify-center min-h-screen">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this music?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={handleDelete}
+              className="bg-red-500 text-white hover:bg-red-600"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-            </Transition.Child>
-
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-8 mx-4 md:mx-auto max-w-md z-20">
-                <Dialog.Title className="text-lg font-bold mb-4">
-                  Confirm Deletion
-                </Dialog.Title>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Are you sure you want to delete this music?
-                </p>
-                <div className="mt-6 flex justify-end">
-                  <button
-                    onClick={handleDelete}
-                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mr-4"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-200 px-4 py-2 rounded-md hover:bg-gray-400"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
+              Delete
+            </Button>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

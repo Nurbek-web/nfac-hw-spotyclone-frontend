@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios, { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Component() {
   const [file, setFile] = useState<File | null>(null);
@@ -14,6 +15,9 @@ export default function Component() {
   const [progress, setProgress] = useState<number>(0);
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -23,6 +27,7 @@ export default function Component() {
 
   const handleUpload = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (!file || !name || !artist || !duration) return;
 
     const formData = new FormData();
@@ -49,6 +54,7 @@ export default function Component() {
       );
       setUploadedFileUrl(response.data.fileUrl);
       console.log("File URL:", response.data.fileUrl);
+      router.push("/");
     } catch (error) {
       console.error("Error uploading file:", error);
       setUploadError("Error uploading file. Please try again.");
@@ -99,7 +105,7 @@ export default function Component() {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" disabled={loading} className="w-full">
             Create Song
           </Button>
           {progress > 0 && (

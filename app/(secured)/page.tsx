@@ -1,5 +1,6 @@
 "use client";
 
+import LandingPage from "@/components/LandingPage";
 import { socket } from "@/lib/socket";
 import { useEffect, useState } from "react";
 
@@ -32,5 +33,11 @@ export default function Home() {
     };
   }, []);
 
-  return <>{isConnected}</>;
+  return (
+    <>
+      {isConnected}
+
+      <LandingPage />
+    </>
+  );
 }
