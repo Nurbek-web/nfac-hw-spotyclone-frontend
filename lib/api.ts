@@ -3,9 +3,7 @@ import axiosInstance from "./axiosInstance";
 
 export const fetchMusics = async () => {
   try {
-    const response = await axiosInstance.get(
-      "http://localhost:5000/api/v5/musics"
-    );
+    const response = await axiosInstance.get("/musics");
 
     return { data: response.data, status: 200 };
   } catch (error) {

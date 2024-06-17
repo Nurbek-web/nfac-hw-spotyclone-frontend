@@ -38,7 +38,7 @@ export default function Component() {
 
     try {
       const response: AxiosResponse<{ fileUrl: string }> = await axios.post(
-        "http://localhost:5000/api/v5/upload",
+        "https://nfac-hw-spotyclone-backend-production.up.railway.app/api/v5/upload",
         formData,
         {
           headers: {

@@ -26,7 +26,9 @@ const MusicDetail: React.FC<MusicDetailProps> = ({ music }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/v5/musics/${music._id}`);
+      await axios.delete(
+        `https://nfac-hw-spotyclone-backend-production.up.railway.app/api/v5/musics/${music._id}`
+      );
       setIsOpen(false);
       router.push("/");
     } catch (error) {

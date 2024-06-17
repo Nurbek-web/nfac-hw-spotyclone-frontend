@@ -156,7 +156,7 @@ export default function LandingPage() {
   );
 }
 
-function AirplayIcon(props) {
+function AirplayIcon(props: any) {
   return (
     <svg
       {...props}
